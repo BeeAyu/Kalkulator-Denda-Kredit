@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kalkulator Kewajiban Tunggakan</title>
+<title>PT BPR BKK WONOGIRI (Perseroda)</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    color: #18324b;
+    background:
+        linear-gradient(rgba(5, 35, 65, .78), rgba(12, 77, 120, .72)),
+        url("assets/background.jpg") center/cover fixed no-repeat;
+}
+
+.container {
+    width: min(900px, 94%);
+    margin: 35px auto;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    color: white;
+    margin-bottom: 25px;
+}
+
+.logo {
+    width: 85px;
+    height: 85px;
+    object-fit: contain;
+    background: white;
+    padding: 7px;
+    border-radius: 15px;
+}
+
+.header h1 {
+    font-size: clamp(23px, 4vw, 34px);
+    margin: 0 0 8px;
+}
+
+.header p {
+    margin: 0;
+    line-height: 1.5;
+}
+
+.card {
+    background: rgba(255, 255, 255, .97);
+    padding: 28px;
+    border-radius: 20px;
+    box-shadow: 0 15px 45px rgba(0, 0, 0, .25);
+}
+
+.card h2 {
+    margin-top: 0;
+    color: #123c66;
+}
+
+.description {
+    color: #647789;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.form-group {
+    margin: 20px 0;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+input {
+    width: 100%;
+    padding: 13px;
+    font-size: 17px;
+    border: 1px solid #cbd8e5;
+    border-radius: 9px;
+    outline: none;
+}
+
+input:focus {
+    border-color: #1674b9;
+    box-shadow: 0 0 0 3px #1674b922;
+}
+
+.buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 22px 0;
+}
+
+button {
+    border: 0;
+    padding: 13px 18px;
+    border-radius: 9px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.btn-primary {
+    background: #1769aa;
+    color: white;
+}
+
+.btn-secondary {
+    background: #e8eef4;
+    color: #24435d;
+}
+
+.results {
+    border: 1px solid #dce5ee;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    padding: 16px;
+    border-bottom: 1px solid #e8edf2;
+}
+
+.row span {
+    color: #53687b;
+}
+
+.row strong {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+.total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    padding: 22px 16px;
+    background: linear-gradient(110deg, #123c66, #1769aa);
+    color: white;
+    font-weight: bold;
+}
+
+.total strong {
+    font-size: clamp(19px, 3vw, 27px);
+    text-align: right;
+}
+
+.note {
+    margin-top: 18px;
+    font-size: 13px;
+    line-height: 1.7;
+    color: #647789;
+}
+
+.footer {
+    text-align: center;
+    padding: 20px 10px;
+    color: white;
+    font-size: 12px;
+}
+
+@media (max-width: 600px) {
+    .container {
+        margin: 20px auto;
+    }
+
+    .header {
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .logo {
+        width: 60px;
+        height: 60px;
+    }
+
+    .card {
+        padding: 18px;
+    }
+
+    .row, .total {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 7px;
+    }
+
+    .row strong, .total strong {
+        text-align: left;
+    }
+
+    .buttons button {
+        width: 100%;
+    }
+}
+
+@media print {
+    body {
+        background: white;
+    }
+
+    .header {
+        color: #123c66;
+    }
+
+    .header p {
+        color: #52677a;
+    }
+
+    .buttons, .footer {
+        display: none;
+    }
+
+    .container {
+        width: 100%;
+        margin: 0;
+    }
+
+    .card {
+        box-shadow: none;
+        border: 1px solid #ddd;
+    }
+
+    .total {
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+    <header class="header">
+        <img
+            class="logo"
+            src="assets/logo.png"
+            alt="Logo instansi"
+            onerror="this.style.display='none'"
+        >
+
+        <div>
+            <h1>PT BPR BKK WONOGIRI (Perseroda)</h1>
+            <h1>Kalkulator Kewajiban Tunggakan</h1>
+            <p>Simulasi perhitungan tunggakan pokok, bunga, dan denda.</p>
+        </div>
+    </header>
+
+    <main class="card">
+        <h2>Rincian Kewajiban</h2>
+        <p class="description">
+            Ubah nominal sesuai data debitur. Hasil perhitungan akan
+            diperbarui secara otomatis.
+        </p>
+
+        <div class="form-group">
+            <label for="pokok">Tunggakan Pokok (Rp)</label>
+            <input id="pokok" type="number" min="0" step="1"
+                   value="119985000">
+        </div>
+
+        <div class="form-group">
+            <label for="bunga">Tunggakan Bunga (Rp)</label>
+            <input id="bunga" type="number" min="0" step="1"
+                   value="220850000">
+        </div>
+
+        <div class="form-group">
+            <label for="persen">Persentase Denda (%)</label>
+            <input id="persen" type="number" min="0" step="0.01"
+                   value="0.5">
+        </div>
+
+        <div class="buttons">
+            <button class="btn-secondary" onclick="resetData()">
+                Kembalikan Contoh
+            </button>
+            <button class="btn-primary" onclick="window.print()">
+                Cetak / Simpan PDF
+            </button>
+        </div>
+
+        <section class="results">
+            <div class="row">
+                <span>Tunggakan Pokok</span>
+                <strong id="hasilPokok">Rp 119.985.000</strong>
+            </div>
+
+            <div class="row">
+                <span>Tunggakan Bunga</span>
+                <strong id="hasilBunga">Rp 220.850.000</strong>
+            </div>
+
+            <div class="row">
+                <span>Dasar Perhitungan Denda</span>
+                <strong id="hasilDasar">Rp 340.835.000</strong>
+            </div>
+
+            <div class="row">
+                <span>Denda (<span id="labelPersen">0,5</span>%)</span>
+                <strong id="hasilDenda">Rp 1.704.175</strong>
+            </div>
+
+            <div class="total">
+                <span>JUMLAH KEWAJIBAN</span>
+                <strong id="hasilTotal">Rp 342.539.175</strong>
+            </div>
+        </section>
+
+        <p class="note">
+            <b>Rumus perhitungan:</b><br>
+            Dasar Denda = Tunggakan Pokok + Tunggakan Bunga<br>
+            Denda = Dasar Denda × Persentase Denda ÷ 100<br>
+            Jumlah Kewajiban = Pokok + Bunga + Denda
+        </p>
+    </main>
+
+    <footer class="footer">
+        Aplikasi Simulasi Perhitungan Kewajiban Tunggakan
+    </footer>
+</div>
+
+<script>
+const rupiah = angka =>
+    'Rp ' + Math.round(angka).toLocaleString('id-ID');
+
+function nilai(id) {
+    const angka = Number(document.getElementById(id).value);
+    return Number.isFinite(angka) && angka > 0 ? angka : 0;
+}
+
+function hitung() {
+    const pokok = nilai('pokok');
+    const bunga = nilai('bunga');
+    const persen = nilai('persen');
+
+    const dasar = pokok + bunga;
+    const denda = dasar * persen / 100;
+    const total = dasar + denda;
+
+    document.getElementById('hasilPokok').textContent =
+        rupiah(pokok);
+
+    document.getElementById('hasilBunga').textContent =
+        rupiah(bunga);
+
+    document.getElementById('hasilDasar').textContent =
+        rupiah(dasar);
+
+    document.getElementById('labelPersen').textContent =
+        persen.toLocaleString('id-ID');
+
+    document.getElementById('hasilDenda').textContent =
+        rupiah(denda);
+
+    document.getElementById('hasilTotal').textContent =
+        rupiah(total);
+}
+
+function resetData() {
+    document.getElementById('pokok').value = 119985000;
+    document.getElementById('bunga').value = 220850000;
+    document.getElementById('persen').value = 0.5;
+    hitung();
+}
+
+['pokok', 'bunga', 'persen'].forEach(id => {
+    document.getElementById(id).addEventListener('input', hitung);
+});
+
+hitung();
+</script>
+</body>
+</html>
